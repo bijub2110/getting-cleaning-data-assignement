@@ -128,6 +128,8 @@ colnames(mergedSet)
 
 # i. add activity labels to the merged dataset
 # Activity becomes a factor
+# as Activity is a factor, we loose the initial coding in writing the final dataset
+# we could create an additional variable instead
 str(mergedSet$Activity)
 mergedSet$Activity <- apply (mergedSet["Activity"],1,function(x) activities[x,2])
 table(mergedSet$Activity)
@@ -141,6 +143,7 @@ names(tidy)
 
 # k. save the tidy dataset in data
 tidyPath <- paste(dataDir, "tidy.txt", sep="/")
-write.table(tidy, tidyPath, sep="\t")
+write.table(tidy, tidyPath, sep="\t", col.names=T, row.names = T, quote=T)
+# verify data
 v <- read.table(tidyPath, sep="\t")
-str(v)
+dim(v)
