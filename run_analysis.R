@@ -31,13 +31,17 @@ if (!file.exists(zipFilePath)) {
   zipFileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
   download.file (zipFileUrl, zipFilePath, method="curl")
   dateDownloaded <- date()
-  unzip (zipFile, exdir=baseDir)
   cat ("Dataset downloaded on:", dateDownloaded,"\n")
+}
+
+# b.3 unzip and creates dataSetDir if necessary
+dataSetDir <-  paste (baseDir, "UCI HAR Dataset", sep="/")
+if (!file.exists(dataSetDir)) {
+  unzip (zipFilePath, exdir=baseDir)
 }
 list.files(baseDir)
 
 # c. read the data sets
-dataSetDir <-  paste (baseDir, "UCI HAR Dataset", sep="/")
 
 # c.1 subjects IDs
 trainSubjectsPath <- paste (dataSetDir, "train", "subject_train.txt", sep="/")
@@ -101,7 +105,7 @@ activities
 
 # f. renames columns of the merged measurement dataset with the feature labels
 colnames(mergedSet) <- features$Feature_str
-names(mergedSet)
+#names(mergedSet)
 
 # g. filter the merged dataset to keep names with mean() or std() in them
 
